@@ -1,3 +1,3 @@
-module github.com/bwiswell/simple-go-network@master
+module github.com/bwiswell/simple-go-network
 
 go 1.16
