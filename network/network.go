@@ -69,7 +69,7 @@ func (network *Network) BatchTrain(inputs, targets [][]float64, eta float64, epo
 	for i := 0; i < epochs; i++ {
 		network.Epoch += 1
 		for j := 0; j < n; j++ {
-			network.Ffbp(inputs[i], targets[i], eta)
+			network.Ffbp(inputs[j], targets[j], eta)
 		}
 	}
 }
