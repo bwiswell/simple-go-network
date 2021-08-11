@@ -2,11 +2,7 @@ package network
 
 import "fmt"
 
-var currID int
-
-func init() {
-	currID = 0
-}
+var perID int = 0
 
 func zeroArray(array []float64) []float64 {
 	for i, _ := range array {
@@ -31,8 +27,8 @@ type Perceptron struct {
 
 func NewPerceptron(weights []float64, bias float64, activationFn func(activity float64) float64) *Perceptron {
 	perceptron := new(Perceptron)
-	perceptron.ID = currID
-	currID += 1
+	perceptron.ID = perID
+	perID += 1
 	perceptron.NInputs = len(weights)
 	perceptron.InitialWeights = weights
 	perceptron.Weights = make([]float64, perceptron.NInputs)
@@ -58,8 +54,8 @@ func (per *Perceptron) Reset() {
 
 func (per *Perceptron) Activate(inputs []float64) float64 {
 	total := per.Bias
-	for i := 0; i < per.NInputs; i++ {
-		total += per.Weights[i] * inputs[i]
+	for i, weight := range per.Weights {
+		total += weight * inputs[i]
 	}
 	per.Activity = total
 	per.Activation = per.ActivationFn(total)
@@ -68,15 +64,15 @@ func (per *Perceptron) Activate(inputs []float64) float64 {
 
 func (per *Perceptron) Backpropagate(error, eta float64, lastInputs []float64) []float64 {
 	delta := error * (1 - per.Activation) * per.Activation
-	error_signals := make([]float64, per.NInputs)
+	errorSignals := make([]float64, per.NInputs)
 	for i := 0; i < per.NInputs; i++ {
 		per.DeltaWeights[i] = eta * delta * lastInputs[i]
-		error_signals[i] = delta * per.Weights[i]
+		errorSignals[i] = delta * per.Weights[i]
 		per.Weights[i] += per.DeltaWeights[i]
 	}
 	per.DeltaBias = eta * delta
 	per.Bias += per.DeltaBias
-	return error_signals
+	return errorSignals
 }
 
 func (per *Perceptron) String() string {
