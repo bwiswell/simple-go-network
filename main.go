@@ -36,6 +36,12 @@ func main() {
 	showGuesses(net, inputs)
 	net.BatchTrain(inputs, outputs, 0.1, 1000)
 	showGuesses(net, inputs)
+	newInA := []float64{0.2, 0.4}
+	newInB := []float64{0.8, 0.1}
+	newInC := []float64{0.5, 0.6}
+	newIns := [][]float64{newInA, newInB, newInC}
+	fmt.Println("--------------------\nTest w/ New Data:")
+	showGuesses(net, newIns)
 }
 
 func showGuesses(net *network.Network, inputs [][]float64) {
